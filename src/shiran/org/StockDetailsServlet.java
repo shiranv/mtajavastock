@@ -29,7 +29,7 @@ public class StockDetailsServlet extends HttpServlet {
 			Stock1.setBid(13.1f);
 			
 			Calendar c =Calendar.getInstance();
-			c.set(2014, 10, 15);
+			c.set(2014, 10, 15, 0, 0,0);
 			Date date=c.getTime();
 			Stock1.setDate(date);
 		
@@ -41,7 +41,7 @@ public class StockDetailsServlet extends HttpServlet {
 			Stock2.setBid(5.78f);
 			
 			Calendar d =Calendar.getInstance();
-			d.set(2014, 10,15);
+			d.set(2014, 10, 15, 0, 0,0);
 			Date date2=d.getTime();
 			Stock2.setDate(date2);
 			
@@ -55,7 +55,7 @@ public class StockDetailsServlet extends HttpServlet {
 			Stock3.setBid(31.2f);
 			
 			Calendar e =Calendar.getInstance();
-			e.set(2014, 10,15);
+			e.set(2014, 10, 15, 0, 0,0);;
 			Date date3=c.getTime();
 			Stock3.setDate(date3);
 			
