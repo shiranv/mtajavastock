@@ -1,4 +1,6 @@
-package shiran.org;
+package shiran.org.model;
+
+import java.sql.Date;
 
 public class Stock {
 	private String symbol;
@@ -35,7 +37,16 @@ public class Stock {
 		String res= "<b>Stock Symbol</b>: " +getSymbol()+" <b>Ask</b>: " + getAsk() + " <b>Bid: </b>"+ getBid()+ " <b>Date:</b> "+ getDate() + "<br>";
 		return res;
 				
+	}
+	
+	public Stock(Stock stock){
+		setSymbol(stock.getSymbol());
+		setAsk(stock.getAsk());
+		setBid(stock.getBid());
+		date=new Date (stock.date.getTime());
 		
 	}
-
+	public Stock() {
+		// TODO Auto-generated constructor stub
+	}
 }

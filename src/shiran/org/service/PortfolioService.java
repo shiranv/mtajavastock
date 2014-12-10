@@ -4,13 +4,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
-import shiran.org.Stock;
-import shiran.org.model.Portfolio;
+import shiran.org.model.Portfolio1;
+import shiran.org.model.Stock;
 
 public class PortfolioService {
 
-	public Portfolio getPortfolio(){
-		Portfolio myPortfolio = new Portfolio();
+	public Portfolio1 getPortfolio(){
+		Portfolio1 myPortfolio = new Portfolio1();
 	
 		
 		
@@ -23,7 +23,7 @@ public class PortfolioService {
 		Calendar c =Calendar.getInstance();
 		c.set(2014, 10, 15, 0, 0,0);
 		Date date=c.getTime();
-		Stock1.setDate(date);
+	    Stock1.setDate(date);
 		myPortfolio.addStock(Stock1);
 		
 		//2
