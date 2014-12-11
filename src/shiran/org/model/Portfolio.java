@@ -2,16 +2,34 @@ package shiran.org.model;
 
 import java.util.Date;
 
-public class Portfolio1 {
+public class Portfolio {
 
 	private static final int MAX_PORTFOLIO_SIZE =5;
-
 	private String title=" show portfolio: ";
-
 	private Stock[] stocks; 
 	private StockStatus[] stocksStatus;
 	private int portfolioSize=0;
+	public Portfolio(){
+		stocks=new Stock[MAX_PORTFOLIO_SIZE];
+		stocksStatus=new StockStatus[MAX_PORTFOLIO_SIZE];
+	}
 
+	/**
+	 * My copy constructor
+	 * @param Portfolio
+	 */
+	public Portfolio(Portfolio portfolio){
+		setTitle(portfolio.getTitle());
+		portfolioSize=portfolio.portfolioSize;
+
+		stocks = new Stock[MAX_PORTFOLIO_SIZE];
+		for(int i = 0; i < 3; i++)
+		{
+			stocks[i] = new Stock(portfolio.stocks[i]);
+		}
+	}
+
+	
 	public String getTitle() {
 		return title;
 	}
@@ -39,25 +57,14 @@ public class Portfolio1 {
 	public void setStocks(Stock[] stocks) {
 		this.stocks = stocks;
 	}
-	//copy c'tor1
-	public Portfolio1(Portfolio1 portfolio){
-		setTitle(portfolio.getTitle());
-		setPortfolioSize(portfolio.getPortfolioSize());
 
-		Stock stocksS[] = new Stock[stocks.length];  
-		for (int i = 0; i < stocksS.length; i++)  
-			stocksS[i] = stocks[i];  
-
-	}
-
-	public Portfolio1(){
-		stocks=new Stock[MAX_PORTFOLIO_SIZE];
-		stocksStatus=new StockStatus[MAX_PORTFOLIO_SIZE];
-	}	
-
-
+	/**
+	 * adding a new stock to the portfolio
+	 * @param stock
+	 */
+	
 	public void addStock(Stock stock){
-		stocks[portfolioSize]= stock/*new Stock(stock)*/; 
+		stocks[portfolioSize]= stock; 
 		portfolioSize++;
 	}
 
@@ -65,6 +72,15 @@ public class Portfolio1 {
 		return stocks;
 	}
 
+	/**
+	 * the method returns in html: 
+	 * in bold: the title of the stock
+	 * in bold: stock symbol
+	 * not in bold - the value of the Stock
+	 * with spaces
+	 * Shiran vazana. December 2014
+	 * @return
+	 */
 	public String getHtmlString(){
 		String retVal = new String();
 		retVal += "<h1>"+title+"</h1>";
@@ -73,7 +89,11 @@ public class Portfolio1 {
 		}
 		return retVal;
 	}
-
+/**
+ * inner class
+ * @author vazana
+ *
+ */
 	public class StockStatus{
 		private static final int DO_NOTHING=0;
 		private static final int BUY=1;
@@ -123,7 +143,10 @@ public class Portfolio1 {
 			this.stockQuantity = stockQuantity;
 		}
 
-
+/**
+ * copy c'tor for stockStatus
+ * @param stockStatus
+ */
 		public StockStatus(StockStatus stockStatus){
 			setSymbol(stockStatus.getSymbol());
 			setCurrentBid(stockStatus.getCurrentBid());
@@ -135,7 +158,6 @@ public class Portfolio1 {
 		}
 	}
 
-	
 }
 
 

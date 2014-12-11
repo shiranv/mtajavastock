@@ -1,7 +1,11 @@
 package shiran.org.model;
 
 import java.sql.Date;
-
+/**
+ * here we define the members of every Stock
+ * @author Vazana Shiran, December 2014.
+ *
+ */
 public class Stock {
 	private String symbol;
 	private float ask; 
@@ -32,13 +36,23 @@ public class Stock {
 	public void setDate(java.util.Date date) {
 		this.date = date;
 	}  
-	
+	/**
+	 * the method returns in html: 
+	 * in bold: stock name
+	 * not in bold - the value of the Stock
+	 * with spaces
+	 * Shiran vazana. December 2014
+	 * @return
+	 */
 	public String getHtmlDescription(){
 		String res= "<b>Stock Symbol</b>: " +getSymbol()+" <b>Ask</b>: " + getAsk() + " <b>Bid: </b>"+ getBid()+ " <b>Date:</b> "+ getDate() + "<br>";
 		return res;
 				
 	}
-	
+	/**
+	 * copy c'tor of Stock
+	 * @param stock
+	 */
 	public Stock(Stock stock){
 		setSymbol(stock.getSymbol());
 		setAsk(stock.getAsk());

@@ -4,13 +4,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
-import shiran.org.model.Portfolio1;
+import shiran.org.model.Portfolio;
 import shiran.org.model.Stock;
-
+/**
+ * this class manage our Stock Portfolio and update his value. 
+ * @author vazana Shiran, December 2014
+ *
+ */
 public class PortfolioService {
 
-	public Portfolio1 getPortfolio(){
-		Portfolio1 myPortfolio = new Portfolio1();
+	public Portfolio getPortfolio(){
+		Portfolio myPortfolio = new Portfolio();
 	
 		
 		
