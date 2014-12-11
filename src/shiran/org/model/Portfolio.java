@@ -5,7 +5,7 @@ import java.util.Date;
 public class Portfolio {
 
 	private static final int MAX_PORTFOLIO_SIZE =5;
-	private String title=" show portfolio: ";
+	private String title=" portfolio #1: ";
 	private Stock[] stocks; 
 	private StockStatus[] stocksStatus;
 	private int portfolioSize=0;
