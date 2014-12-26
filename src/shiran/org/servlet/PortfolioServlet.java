@@ -22,9 +22,6 @@ import shiran.org.service.PortfolioService;
 			Portfolio portfolio1 = portfolioService.getPortfolio();
 			Portfolio portfolio2=new Portfolio(portfolio1);
 
-			portfolio2.setTitle("portfolio #2");
-			
-			portfolio2.getStocks()[2].setBid(55.55f);
 			
 			/**
 			 * print portfolio1 details
@@ -35,8 +32,6 @@ import shiran.org.service.PortfolioService;
 			 * print portfolio2 details
 			 *Shiran Vazana , December 2014.
 			 */
-		    resp.getWriter().println(portfolio2.getHtmlString());
 		    
-
 		}
 }

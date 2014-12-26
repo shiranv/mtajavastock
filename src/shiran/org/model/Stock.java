@@ -10,6 +10,9 @@ public class Stock {
 	private String symbol;
 	private float ask; 
 	private float bid; 
+	
+	
+	
 	private java.util.Date date;
 	
 	public String getSymbol() {
@@ -36,6 +39,8 @@ public class Stock {
 	public void setDate(java.util.Date date) {
 		this.date = date;
 	}  
+	
+	
 	/**
 	 * the method returns in html: 
 	 * in bold: stock name
