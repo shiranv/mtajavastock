@@ -7,12 +7,9 @@ import java.sql.Date;
  *
  */
 public class Stock {
-	private String symbol;
-	private float ask; 
-	private float bid; 
-	
-	
-	
+	protected String symbol;
+	protected float ask; 
+	protected float bid; 
 	private java.util.Date date;
 	
 	public String getSymbol() {
@@ -66,6 +63,9 @@ public class Stock {
 		
 	}
 	public Stock() {
+		// TODO Auto-generated constructor stub
+	}
+	public Stock(float ask2, float bid2, String symbol2, Date date2) {
 		// TODO Auto-generated constructor stub
 	}
 }

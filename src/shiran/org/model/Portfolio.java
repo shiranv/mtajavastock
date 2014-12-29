@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Portfolio {
 
-	private enum ALGO_RECOMMENDATION{DO_NOTHING,BUY,SELL};
+	public enum ALGO_RECOMMENDATION{DO_NOTHING,BUY,SELL};
 	private static final int MAX_PORTFOLIO_SIZE =5;
 	private String title=" Shiran's Portfolio ! ";
 	private Stock[] stocks; 
@@ -30,24 +30,12 @@ public class Portfolio {
 		stocks = new Stock[MAX_PORTFOLIO_SIZE];
 		stocksStatus = new StockStatus[MAX_PORTFOLIO_SIZE];
 
-		for(int i = 0; i < portfolioSize; i++){
-			{
-				stocks[i] = new Stock(portfolio.stocks[i]);
-				stocksStatus[i]=new StockStatus(portfolio.stocks[i]);
-			}
-		}
-
-
-		//		for(int i = 0; i < 3; i++)
-		//		{
-		//			if(portfolio.stocks[i]!= null){
-		//			
-		//			}
-		//	    	stocksStatus[i].setCurrentAsk(portfolio.stocks[i].getAsk());//=portfolio.stocks[i].getAsk();
-		//			stocksStatus[i].setCurrentBid(portfolio.stocks[i].getBid());//=portfolio.stocks[i].getBid();
-		//			stocksStatus[i].setSymbol(portfolio.stocks[i].getSymbol());//=portfolio.stocks[i].getSymbol();
-		//			stocksStatus[i].setDate(portfolio.stocks[i].getDate());
-		//		}
+				for(int i = 0; i < portfolioSize; i++)
+					{
+						stocks[i] = new Stock(portfolio.stocks[i]);
+						stocksStatus[i]=new StockStatus(portfolio.stocks[i]);
+					}
+		
 	}
 
 
@@ -93,8 +81,6 @@ public class Portfolio {
 	 */
 
 
-
-
 	public void addStock(Stock stock){
 
 		boolean flag=true;
@@ -113,14 +99,15 @@ public class Portfolio {
 		else if(portfolioSize< MAX_PORTFOLIO_SIZE && flag==true){
 			stocks[portfolioSize] = stock;
 			stocksStatus[portfolioSize] = new StockStatus(stock.getSymbol(), stock.getAsk(), stock.getBid(), stock.getDate());
+			//portfolioSize++;
 
-    		stocksStatus[portfolioSize].setCurrentAsk(stocks[portfolioSize].getAsk());
-			stocksStatus[portfolioSize].setCurrentBid(stocks[portfolioSize].getBid());
-			stocksStatus[portfolioSize].setSymbol(stocks[portfolioSize].getSymbol());
-			stocksStatus[portfolioSize].setDate(stocks[portfolioSize].getDate());
-			stocksStatus[portfolioSize].setRecommendation(ALGO_RECOMMENDATION.DO_NOTHING);
-			stocksStatus[portfolioSize].setStockQuantity(0);
-			portfolioSize++;
+						stocksStatus[portfolioSize].setAsk(stocks[portfolioSize].getAsk());
+						stocksStatus[portfolioSize].setBid(stocks[portfolioSize].getBid());
+						stocksStatus[portfolioSize].setSymbol(stocks[portfolioSize].getSymbol());
+						stocksStatus[portfolioSize].setDate(stocks[portfolioSize].getDate());
+						stocksStatus[portfolioSize].setRecommendation(ALGO_RECOMMENDATION.DO_NOTHING);
+						stocksStatus[portfolioSize].setStockQuantity(0);
+						portfolioSize++;
 			System.out.println("Stock "+stocks[portfolioSize-1].getSymbol()+" added successfuly!");
 		}
 	}
@@ -166,12 +153,13 @@ public class Portfolio {
 	{
 		boolean flag=true;
 		if(placeOfStock(symbol)==-2){
-			System.out.println("there is no stock with that name, please enter valid name. ");
+			System.out.println("there is no stock with that name, please enter a valid name. ");
 			flag=false; 
 		}
 		else if(stocksStatus[placeOfStock(symbol)].getStockQuantity()>=quantity&&(quantity!=-1)&& flag==true){
-			balance=balance+(quantity * stocks[placeOfStock(symbol)].getBid());
-			stocksStatus[placeOfStock(symbol)].stockQuantity=stocksStatus[placeOfStock(symbol)].stockQuantity-quantity;
+			balance=balance+(quantity * stocksStatus[placeOfStock(symbol)].getBid());
+			stocksStatus[placeOfStock(symbol)].setStockQuantity(stocksStatus[placeOfStock(symbol)].getStockQuantity()-quantity);
+			System.out.println("the stock "+symbol+" sold successfuly");
 			flag=true;
 		}
 		else if(stocksStatus[placeOfStock(symbol)].getStockQuantity()<quantity && placeOfStock(symbol)!=-2 ){
@@ -180,9 +168,9 @@ public class Portfolio {
 		}
 
 		else if(quantity==(-1)&&flag==true){
-			balance=balance+(stocksStatus[placeOfStock(symbol)].getStockQuantity() * stocksStatus[placeOfStock(symbol)].getCurrentBid());
+			balance=balance+(stocksStatus[placeOfStock(symbol)].getStockQuantity() * stocksStatus[placeOfStock(symbol)].getBid());
 			stocksStatus[placeOfStock(symbol)].setStockQuantity(0);
-			System.out.println("the stock "+symbol+" sold successfuly");
+			System.out.println("the stock "+symbol+" sold successfuly(all)");
 			flag=true;
 		}
 		else if(quantity<(-1)){
@@ -198,14 +186,14 @@ public class Portfolio {
 	 */
 	public boolean buyStock(String symbol,int quantity){
 		boolean flag=true;
-		
-//		for(int i=0;i<portfolioSize;i++){
-//			if(symbol==stocksStatus[i].getSymbol()){
-//				System.out.println("you already have "+symbol+" stock, please enter another stock symbol.");
-//				flag=false;
-//				break;
-//			}
-//		}
+
+		//		for(int i=0;i<portfolioSize;i++){
+		//			if(symbol==stocksStatus[i].getSymbol()/* && stocksStatus[i]!=null */){
+		//				System.out.println("you already have "+symbol+" stock, please enter another stock symbol.");
+		//				flag=false;
+		//				break;
+		//			}
+		//		}
 		// there is a problem with that loop because when i added a stock i also added her to the stocksStatus array. 
 		// so that flag always will change to be false, and then i can't to buy this stock because it already added in addStock method.
 		if(placeOfStock(symbol)==-2){
@@ -216,7 +204,7 @@ public class Portfolio {
 			System.out.println("this quantity is not legal, please enter a quantity bigger than 0");
 			flag=false;
 		}
-		
+
 		else if(balance<stocks[placeOfStock(symbol)].getAsk()*quantity){
 			System.out.println("Not enough balance to complete purchase");
 			flag=false;
@@ -230,8 +218,8 @@ public class Portfolio {
 		}
 		else if(quantity==-1)
 		{
-			quantity=(int) (balance/stocksStatus[placeOfStock(symbol)].getCurrentAsk());
-			balance=stocksStatus[placeOfStock(symbol)].getCurrentAsk()-quantity;
+			quantity=(int) (balance/stocksStatus[placeOfStock(symbol)].getAsk());
+			balance=stocksStatus[placeOfStock(symbol)].getAsk()-quantity;
 			stocksStatus[placeOfStock(symbol)].setStockQuantity(stocksStatus[placeOfStock(symbol)].getStockQuantity()+quantity);
 			System.out.println("you bought the stock"+symbol+" !");
 			flag=true;
@@ -239,7 +227,7 @@ public class Portfolio {
 
 		return flag;
 	}
-	
+
 	/**
 	 * this method returns total value of all stocks.
 	 * @return
@@ -248,12 +236,12 @@ public class Portfolio {
 		float valueOfAllStocks=0;
 		for (int i=0; i<portfolioSize;i++){
 			if(stocksStatus[i]!=null){
-				valueOfAllStocks=(stocksStatus[i].getCurrentBid()*stocksStatus[i].getStockQuantity())+valueOfAllStocks;
+				valueOfAllStocks=(stocksStatus[i].getBid()*stocksStatus[i].getStockQuantity())+valueOfAllStocks;
 			}
 		}
 		return valueOfAllStocks;
 	}
-	
+
 	/**
 	 *  this method returns value of balance.
 	 * @return
@@ -261,7 +249,7 @@ public class Portfolio {
 	public float getCurrentBalance(){
 		return balance;
 	}
-	
+
 	/**
 	 * this method returns the sum of all stocks's value and portfolio balance.
 	 * @return
@@ -311,7 +299,7 @@ public class Portfolio {
 		retVal+="<b>Total Portfolio Value: </b>"+getTotalValue()+"$, "+"<b>Total Stocks Value: </b>"+ getStocksValue()+"$, "+"<b>Balance: </b>"+getCurrentBalance()+"$. "; 
 		return retVal;
 	}
-	
+
 	/**
 	 * this method updates the balance.
 	 * @param amount
@@ -331,78 +319,79 @@ public class Portfolio {
 		return balance; 
 	}
 
-	/**
-	 * inner class
-	 * @author vazana shiran
-	 *
-	 */
-	public class StockStatus{
-
-		private String symbol;
-		private float currentBid;
-		private float currentAsk;
-		private Date date; 
-		private ALGO_RECOMMENDATION recommendation; 
-		private int stockQuantity;
-
-		public String getSymbol() {
-			return symbol;
-		}
-		public void setSymbol(String symbol) {
-			this.symbol = symbol;
-		}
-		public float getCurrentBid() {
-			return currentBid;
-		}
-		public void setCurrentBid(float currentBid) {
-			this.currentBid = currentBid;
-		}
-		public float getCurrentAsk() {
-			return currentAsk;
-		}
-		public void setCurrentAsk(float currentAsk) {
-			this.currentAsk = currentAsk;
-		}
-		public Date getDate() {
-			return date;
-		}
-		public void setDate(Date date) {
-			this.date = date;
-		}
-		public ALGO_RECOMMENDATION getRecommendation() {
-			return recommendation;
-		}
-		public void setRecommendation(ALGO_RECOMMENDATION recommendation) {
-			this.recommendation = recommendation;
-		}
-		public int getStockQuantity() {
-			return stockQuantity;
-		}
-		public void setStockQuantity(int stockQuantity) {
-			this.stockQuantity = stockQuantity;
-		}
-
-		/**
-		 * copy c'tor for stockStatus
-		 * @param stockStatus
-		 */
-		public StockStatus(StockStatus stockStatus){
-			setSymbol(stockStatus.getSymbol());
-			setCurrentBid(stockStatus.getCurrentBid());
-			setCurrentAsk(stockStatus.getCurrentAsk());
-			date=new Date(stockStatus.date.getTime());
-			setRecommendation(stockStatus.getRecommendation());
-			setStockQuantity(stockStatus.getStockQuantity());
-
-		}
-		public StockStatus(Stock stock) {
-			// TODO Auto-generated constructor stub
-		}
-		public StockStatus(String symbol2, float ask, float bid, Date date2) {
-			// TODO Auto-generated constructor stub
-		}
-
-	}
+//	/**
+//	 * inner class
+//	 * @author vazana shiran
+//	 *
+// */
+//	public class StockStatus{
+//
+//		private String symbol;
+//		private float currentBid;
+//		private float currentAsk;
+//		private Date date; 
+//		private ALGO_RECOMMENDATION recommendation; 
+//		private int stockQuantity;
+//
+//		public String getSymbol() {
+//			return symbol;
+//		}
+//		public void setSymbol(String symbol) {
+//			this.symbol = symbol;
+//		}
+//		public float getCurrentBid() {
+//			return currentBid;
+//		}
+//		public void setCurrentBid(float currentBid) {
+//			this.currentBid = currentBid;
+//		}
+//		public float getCurrentAsk() {
+//			return currentAsk;
+//		}
+//		public void setCurrentAsk(float currentAsk) {
+//			this.currentAsk = currentAsk;
+//		}
+//		public Date getDate() {
+//			return date;
+//		}
+//		public void setDate(Date date) {
+//			this.date = date;
+//		}
+//		public ALGO_RECOMMENDATION getRecommendation() {
+//			return recommendation;
+//		}
+//		public void setRecommendation(ALGO_RECOMMENDATION recommendation) {
+//			this.recommendation = recommendation;
+//		}
+//		public int getStockQuantity() {
+//			return stockQuantity;
+//		}
+//		public void setStockQuantity(int stockQuantity) {
+//			this.stockQuantity = stockQuantity;
+//		}
+//
+//
+//		/**
+//		 * copy c'tor for stockStatus
+//		 * @param stockStatus
+//		 */
+//		public StockStatus(StockStatus stockStatus){
+//			setSymbol(stockStatus.getSymbol());
+//			setCurrentBid(stockStatus.getCurrentBid());
+//			setCurrentAsk(stockStatus.getCurrentAsk());
+//			date=new Date(stockStatus.date.getTime());
+//			setRecommendation(stockStatus.getRecommendation());
+//			setStockQuantity(stockStatus.getStockQuantity());
+//
+//		}
+//		public StockStatus(Stock stock) {
+//			// TODO Auto-generated constructor stub
+//		}
+//		public StockStatus(String symbol2, float ask, float bid, Date date2) {
+//			// TODO Auto-generated constructor stub
+//		}
+//
+//	}
 
 }
 

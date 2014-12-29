@@ -1,5 +1,4 @@
 package shiran.org.service;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
@@ -18,8 +17,6 @@ public class PortfolioService {
 		Portfolio myPortfolio = new Portfolio();
 		myPortfolio.setTitle("Exercise 7 portfolio");
 		myPortfolio.updateBalance(10000);
-		
-		
 		
 		//1
 		Stock Stock1=new Stock();
@@ -68,5 +65,4 @@ public class PortfolioService {
 				
 		return myPortfolio;
 	}
-
 }

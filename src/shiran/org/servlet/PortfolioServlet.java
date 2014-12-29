@@ -20,7 +20,7 @@ import shiran.org.service.PortfolioService;
 			
 			PortfolioService portfolioService = new PortfolioService();
 			Portfolio portfolio1 = portfolioService.getPortfolio();
-			Portfolio portfolio2=new Portfolio(portfolio1);
+			//ÈPortfolio portfolio2=new Portfolio(portfolio1);
 
 			
 			/**
@@ -28,10 +28,7 @@ import shiran.org.service.PortfolioService;
 			 *Shiran Vazana , December 2014.
 			 */
 		    resp.getWriter().println(portfolio1.getHtmlString());
-		    /**
-			 * print portfolio2 details
-			 *Shiran Vazana , December 2014.
-			 */
+	
 		    
 		}
 }
