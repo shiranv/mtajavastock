@@ -10,7 +10,7 @@ public class Stock {
 	protected String symbol;
 	protected float ask; 
 	protected float bid; 
-	private java.util.Date date;
+	protected java.util.Date date;
 	
 	public String getSymbol() {
 		return symbol;

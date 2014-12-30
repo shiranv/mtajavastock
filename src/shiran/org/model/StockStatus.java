@@ -1,24 +1,17 @@
 package shiran.org.model;
 
-import java.sql.Date;
-
 import shiran.org.model.Portfolio.ALGO_RECOMMENDATION;
 
 public class StockStatus extends Stock{
 	
 	private ALGO_RECOMMENDATION recommendation; 
 	private int stockQuantity;
+	
 	/**
 	 * c'tor for StockStatus
-	 * @param ask
-	 * @param bid
-	 * @param symbol
-	 * @param date
-	 * @param recommendation
-	 * @param stockQuantity
 	 */
-	public StockStatus(float ask,float bid,String symbol, Date date,ALGO_RECOMMENDATION recommendation, int stockQuantity){
-		super(ask, bid, symbol,date);
+	public StockStatus(){
+		super();
 		this.recommendation=recommendation;
 		this.stockQuantity=stockQuantity;
 	}
@@ -33,16 +26,10 @@ public class StockStatus extends Stock{
 			this.recommendation=stockStatus.getRecommendation();
 		}
 	
-	
-	
-	public StockStatus(String symbol, float ask, float bid, java.util.Date date) {
-		// TODO Auto-generated constructor stub
-	}
-
-	public StockStatus(Stock stock) {
-		// TODO Auto-generated constructor stub
-	}
-
+	/**
+	 * getters & setters
+	 * @return
+	 */
 	public ALGO_RECOMMENDATION getRecommendation() {
 		return recommendation;
 	}

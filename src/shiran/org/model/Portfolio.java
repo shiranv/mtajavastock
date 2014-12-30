@@ -7,14 +7,14 @@ public class Portfolio {
 	public enum ALGO_RECOMMENDATION{DO_NOTHING,BUY,SELL};
 	private static final int MAX_PORTFOLIO_SIZE =5;
 	private String title=" Shiran's Portfolio ! ";
-	private Stock[] stocks; 
+	//private Stock[] stocks; 
 	private StockStatus[] stocksStatus;
 	private int portfolioSize=0;
 	private float balance=0;
 
 
 	public Portfolio(){
-		stocks=new Stock[MAX_PORTFOLIO_SIZE];
+		//stocks=new Stock[MAX_PORTFOLIO_SIZE];
 		stocksStatus=new StockStatus[MAX_PORTFOLIO_SIZE];
 	}
 
@@ -27,13 +27,13 @@ public class Portfolio {
 		portfolioSize=portfolio.portfolioSize;
 		setBalance(portfolio.getBalance());
 
-		stocks = new Stock[MAX_PORTFOLIO_SIZE];
+		//stocks = new Stock[MAX_PORTFOLIO_SIZE];
 		stocksStatus = new StockStatus[MAX_PORTFOLIO_SIZE];
 
 				for(int i = 0; i < portfolioSize; i++)
 					{
-						stocks[i] = new Stock(portfolio.stocks[i]);
-						stocksStatus[i]=new StockStatus(portfolio.stocks[i]);
+						//stocks[i] = new Stock(portfolio.stocks[i]);
+						stocksStatus[i]=new StockStatus(portfolio.stocksStatus[i]);
 					}
 		
 	}
@@ -63,10 +63,6 @@ public class Portfolio {
 		this.portfolioSize = portfolioSize;
 	}
 
-	public void setStocks(Stock[] stocks) {
-		this.stocks = stocks;
-	}
-
 	public float getBalance() {
 		return balance;
 	}
@@ -85,7 +81,7 @@ public class Portfolio {
 
 		boolean flag=true;
 		for(int i=0;i<portfolioSize;i++){
-			if(stock.getSymbol()==stocksStatus[i].getSymbol()){
+			if(/*stock.getSymbol()==stocksStatus[i].getSymbol()*/stock.getSymbol().equals(stocksStatus[i].getSymbol())){
 				System.out.println("you already have "+stock.getSymbol()+" stock, please enter another stock symbol.");
 				flag=false;
 				break;
@@ -97,24 +93,23 @@ public class Portfolio {
 
 
 		else if(portfolioSize< MAX_PORTFOLIO_SIZE && flag==true){
-			stocks[portfolioSize] = stock;
-			stocksStatus[portfolioSize] = new StockStatus(stock.getSymbol(), stock.getAsk(), stock.getBid(), stock.getDate());
+			//stocks[portfolioSize] = stock;
+			stocksStatus[portfolioSize] = new StockStatus();
 			//portfolioSize++;
-
-						stocksStatus[portfolioSize].setAsk(stocks[portfolioSize].getAsk());
-						stocksStatus[portfolioSize].setBid(stocks[portfolioSize].getBid());
-						stocksStatus[portfolioSize].setSymbol(stocks[portfolioSize].getSymbol());
-						stocksStatus[portfolioSize].setDate(stocks[portfolioSize].getDate());
-						stocksStatus[portfolioSize].setRecommendation(ALGO_RECOMMENDATION.DO_NOTHING);
+						stocksStatus[portfolioSize].setAsk(stock.getAsk());
+						stocksStatus[portfolioSize].setBid(stock.getBid());
+						stocksStatus[portfolioSize].setSymbol(stock.getSymbol());
+						stocksStatus[portfolioSize].setDate(stock.getDate());
+     					stocksStatus[portfolioSize].setRecommendation(ALGO_RECOMMENDATION.DO_NOTHING);
 						stocksStatus[portfolioSize].setStockQuantity(0);
 						portfolioSize++;
-			System.out.println("Stock "+stocks[portfolioSize-1].getSymbol()+" added successfuly!");
+			System.out.println("Stock "+stocksStatus[portfolioSize-1].getSymbol()+" added successfuly!");
 		}
 	}
 
 	public boolean removeStock (String symbol) {
 		boolean flag=true; 
-		int temp;
+//		int temp;
 
 		if (placeOfStock(symbol)== -2){
 			System.out.println("the stock "+symbol+ " doesn't exsit in your portfolio. please enter a valid stock symbol. ");
@@ -122,20 +117,20 @@ public class Portfolio {
 		}
 		else if (placeOfStock(symbol)!= -2)
 		{
-			temp=placeOfStock(symbol);
+//			temp=placeOfStock(symbol);
 			sellStock(symbol, -1);
 
 			if(placeOfStock(symbol)!= (portfolioSize-1))
 			{
-				stocks[placeOfStock(symbol)]=stocks[portfolioSize-1]; 
-				stocks[portfolioSize-1]=null;
+			//	stocks[placeOfStock(symbol)]=stocks[portfolioSize-1]; 
+			//	stocks[portfolioSize-1]=null;
 
-				stocksStatus[temp]=stocksStatus[portfolioSize-1];
+				stocksStatus[placeOfStock(symbol)]=stocksStatus[portfolioSize-1];
 				stocksStatus[portfolioSize-1]=null;
 			}
 			else if(placeOfStock(symbol)==(portfolioSize-1))
 			{
-				stocks[portfolioSize-1]=null; 
+				//stocks[portfolioSize-1]=null; 
 				stocksStatus[portfolioSize-1]=null;
 			}
 			portfolioSize--;
@@ -187,13 +182,13 @@ public class Portfolio {
 	public boolean buyStock(String symbol,int quantity){
 		boolean flag=true;
 
-		//		for(int i=0;i<portfolioSize;i++){
-		//			if(symbol==stocksStatus[i].getSymbol()/* && stocksStatus[i]!=null */){
-		//				System.out.println("you already have "+symbol+" stock, please enter another stock symbol.");
-		//				flag=false;
-		//				break;
-		//			}
-		//		}
+//				for(int i=0;i<portfolioSize;i++){
+//					if(symbol==stocksStatus[i].getSymbol()/* && stocksStatus[i]!=null */){
+//						System.out.println("you already have "+symbol+" stock, please enter another stock symbol.");
+//						flag=false;
+//						break;
+//					}
+//				}
 		// there is a problem with that loop because when i added a stock i also added her to the stocksStatus array. 
 		// so that flag always will change to be false, and then i can't to buy this stock because it already added in addStock method.
 		if(placeOfStock(symbol)==-2){
@@ -205,13 +200,13 @@ public class Portfolio {
 			flag=false;
 		}
 
-		else if(balance<stocks[placeOfStock(symbol)].getAsk()*quantity){
+		else if(balance<stocksStatus[placeOfStock(symbol)].getAsk()*quantity){
 			System.out.println("Not enough balance to complete purchase");
 			flag=false;
 		}
-		else if (balance>=stocks[placeOfStock(symbol)].getAsk()*quantity && flag==true){
+		else if (balance>=stocksStatus[placeOfStock(symbol)].getAsk()*quantity && flag==true){
 
-			balance=balance-stocks[placeOfStock(symbol)].getAsk()*quantity;
+			balance=balance-stocksStatus[placeOfStock(symbol)].getAsk()*quantity;
 			stocksStatus[placeOfStock(symbol)].setStockQuantity(stocksStatus[placeOfStock(symbol)].getStockQuantity()+quantity);
 			System.out.println("you bought the stock "+symbol+" !");
 			return true;
@@ -269,16 +264,20 @@ public class Portfolio {
 	public int placeOfStock(String symbol){
 		int index=-2;
 		for(int i=0;i<portfolioSize;i++){
-			if(stocks[i].getSymbol()==symbol){
+			if(stocksStatus[i]!=null){
+				if (stocksStatus[i].getSymbol().equals(symbol)){ 
+				//if(stocksStatus[i].getSymbol()==symbol){
 				index=i;
 				break;
+				}
 			}
 		}
 		return index;
 	}
 
+
 	public  Stock[] getStocks(){
-		return stocks;
+		return stocksStatus;
 	}
 
 	/**
@@ -294,7 +293,7 @@ public class Portfolio {
 		String retVal = new String();
 		retVal += "<h1>"+title+"</h1>";
 		for (int i = 0; i < portfolioSize; i++) {
-			retVal += stocks[i].getHtmlDescription();
+			retVal += stocksStatus[i].getHtmlDescription();
 		}
 		retVal+="<b>Total Portfolio Value: </b>"+getTotalValue()+"$, "+"<b>Total Stocks Value: </b>"+ getStocksValue()+"$, "+"<b>Balance: </b>"+getCurrentBalance()+"$. "; 
 		return retVal;
