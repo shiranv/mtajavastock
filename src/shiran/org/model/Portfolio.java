@@ -2,6 +2,11 @@ package shiran.org.model;
 
 import java.util.Date;
 
+import shiran.org.exeption.BalanceException;
+import shiran.org.exeption.PortfolioFullException;
+import shiran.org.exeption.StockAlreadyExistsException;
+import shiran.org.exeption.StockNotExistException;
+
 public class Portfolio {
 
 	public enum ALGO_RECOMMENDATION{DO_NOTHING,BUY,SELL};
@@ -72,18 +77,19 @@ public class Portfolio {
 	 */
 
 
-	public void addStock(Stock stock){
+	public void addStock(Stock stock)throws StockAlreadyExistsException, PortfolioFullException {
 
 		boolean flag=true;
 		for(int i=0;i<portfolioSize;i++){
-			if(/*stock.getSymbol()==stocksStatus[i].getSymbol()*/stock.getSymbol().equals(stocksStatus[i].getSymbol())){
+			if(stock.getSymbol().equals(stocksStatus[i].getSymbol())){
 				System.out.println("you already have "+stock.getSymbol()+" stock, please enter another stock symbol.");
-				flag=false;
-				break;
+				throw new StockAlreadyExistsException(stock.getSymbol());
 			}
 		}
 		if (portfolioSize >= (MAX_PORTFOLIO_SIZE)&&flag==true){
+			
 			System.out.println("can't add new stock,portfolio can only have "+ MAX_PORTFOLIO_SIZE+" stocks!");
+			throw new PortfolioFullException();
 		}
 
 
@@ -100,12 +106,13 @@ public class Portfolio {
 		}
 	}
 
-	public boolean removeStock (String symbol) {
+	public void removeStock (String symbol)throws StockNotExistException {
 		boolean flag=true; 
 
 		if (placeOfStock(symbol)== -2){
 			System.out.println("the stock "+symbol+ " doesn't exsit in your portfolio. please enter a valid stock symbol. ");
 			flag=false; 
+			throw new StockNotExistException(symbol);
 		}
 		else if (placeOfStock(symbol)!= -2)
 		{
@@ -125,19 +132,20 @@ public class Portfolio {
 			System.out.println("Stock " + symbol +" removed successfuly!");
 			flag=true; 
 		}
-		return flag;
+		//return flag;
 	}
 
 	/**
 	 * this method sells  stocks.
 	 * @return
 	 */
-	public boolean sellStock(String symbol, int quantity)
+	public void sellStock(String symbol, int quantity)throws StockNotExistException
 	{
 		boolean flag=true;
 		if(placeOfStock(symbol)==-2){
 			System.out.println("there is no stock with that name, please enter a valid name. ");
-			flag=false; 
+			flag=false;
+			throw new StockNotExistException(symbol);
 		}
 		else if(stocksStatus[placeOfStock(symbol)].getStockQuantity()>=quantity&&(quantity!=-1)&& flag==true){
 			balance=balance+(quantity * stocksStatus[placeOfStock(symbol)].getBid());
@@ -160,14 +168,14 @@ public class Portfolio {
 			System.out.println("this quantity is not legal, please enter a quantity bigger than 0");
 			flag=false;
 		}
-		return flag;
+		//return flag;
 	}
 
 	/**
 	 * this method buys stocks.
 	 * @return
 	 */
-	public boolean buyStock(String symbol,int quantity){
+	public void buyStock(String symbol,int quantity)throws BalanceException,StockNotExistException{
 		boolean flag=true;
 
 //				for(int i=0;i<portfolioSize;i++){
@@ -182,6 +190,7 @@ public class Portfolio {
 		if(placeOfStock(symbol)==-2){
 			System.out.println("there is no stock with that name, please enter valid name. ");
 			flag=false;
+			throw new StockNotExistException(symbol);
 		}
 		if(quantity<-1){
 			System.out.println("this quantity is not legal, please enter a quantity bigger than 0");
@@ -191,13 +200,14 @@ public class Portfolio {
 		else if(balance<stocksStatus[placeOfStock(symbol)].getAsk()*quantity){
 			System.out.println("Not enough balance to complete purchase");
 			flag=false;
+			throw new BalanceException();
 		}
 		else if (balance>=stocksStatus[placeOfStock(symbol)].getAsk()*quantity && flag==true){
 
 			balance=balance-stocksStatus[placeOfStock(symbol)].getAsk()*quantity;
 			stocksStatus[placeOfStock(symbol)].setStockQuantity(stocksStatus[placeOfStock(symbol)].getStockQuantity()+quantity);
 			System.out.println("you bought the stock "+symbol+" !");
-			return true;
+			//return true;
 		}
 		else if(quantity==-1)
 		{
@@ -208,7 +218,7 @@ public class Portfolio {
 			flag=true;
 		}
 
-		return flag;
+		//return flag;
 	}
 
 	/**
@@ -306,7 +316,3 @@ public class Portfolio {
 	}
 
 }
-
-
-
-
