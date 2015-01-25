@@ -1,4 +1,4 @@
-package shiran.org.exeption;
+package shiran.org.exception;
 /**
  * This exception to be thrown when adding more stocks than
 allowed

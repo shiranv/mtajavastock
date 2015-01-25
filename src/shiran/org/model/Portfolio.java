@@ -2,10 +2,13 @@ package shiran.org.model;
 
 import java.util.Date;
 
-import shiran.org.exeption.BalanceException;
-import shiran.org.exeption.PortfolioFullException;
-import shiran.org.exeption.StockAlreadyExistsException;
-import shiran.org.exeption.StockNotExistException;
+
+import java.util.List;
+
+import shiran.org.exception.BalanceException;
+import shiran.org.exception.PortfolioFullException;
+import shiran.org.exception.StockAlreadyExistsException;
+import shiran.org.exception.StockNotExistsException;
 
 public class Portfolio {
 
@@ -16,7 +19,10 @@ public class Portfolio {
 	private int portfolioSize=0;
 	private float balance=0;
 
-
+	public Portfolio(List<StockStatus> st){
+	
+	}
+	
 	public Portfolio(){
 		stocksStatus=new StockStatus[MAX_PORTFOLIO_SIZE];
 	}
@@ -106,13 +112,13 @@ public class Portfolio {
 		}
 	}
 
-	public void removeStock (String symbol)throws StockNotExistException {
+	public void removeStock (String symbol)throws StockNotExistsException {
 		boolean flag=true; 
 
 		if (placeOfStock(symbol)== -2){
 			System.out.println("the stock "+symbol+ " doesn't exsit in your portfolio. please enter a valid stock symbol. ");
 			flag=false; 
-			throw new StockNotExistException(symbol);
+			throw new StockNotExistsException(symbol);
 		}
 		else if (placeOfStock(symbol)!= -2)
 		{
@@ -139,13 +145,13 @@ public class Portfolio {
 	 * this method sells  stocks.
 	 * @return
 	 */
-	public void sellStock(String symbol, int quantity)throws StockNotExistException
+	public void sellStock(String symbol, int quantity)throws StockNotExistsException
 	{
 		boolean flag=true;
 		if(placeOfStock(symbol)==-2){
 			System.out.println("there is no stock with that name, please enter a valid name. ");
 			flag=false;
-			throw new StockNotExistException(symbol);
+			throw new StockNotExistsException(symbol);
 		}
 		else if(stocksStatus[placeOfStock(symbol)].getStockQuantity()>=quantity&&(quantity!=-1)&& flag==true){
 			balance=balance+(quantity * stocksStatus[placeOfStock(symbol)].getBid());
@@ -175,7 +181,7 @@ public class Portfolio {
 	 * this method buys stocks.
 	 * @return
 	 */
-	public void buyStock(String symbol,int quantity)throws BalanceException,StockNotExistException{
+	public void buyStock(String symbol,int quantity)throws BalanceException,StockNotExistsException{
 		boolean flag=true;
 
 //				for(int i=0;i<portfolioSize;i++){
@@ -190,7 +196,7 @@ public class Portfolio {
 		if(placeOfStock(symbol)==-2){
 			System.out.println("there is no stock with that name, please enter valid name. ");
 			flag=false;
-			throw new StockNotExistException(symbol);
+			throw new StockNotExistsException(symbol);
 		}
 		if(quantity<-1){
 			System.out.println("this quantity is not legal, please enter a quantity bigger than 0");
@@ -273,7 +279,7 @@ public class Portfolio {
 	}
 
 
-	public  Stock[] getStocks(){
+	public  StockStatus[] getStocks(){
 		return stocksStatus;
 	}
 

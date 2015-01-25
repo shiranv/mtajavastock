@@ -1,15 +1,15 @@
-package shiran.org.exeption;
+package shiran.org.exception;
 /**
  *  exception to be thrown when a stock doesn’t exist.
 
  * @author vazana
  *
  */
-public class StockNotExistException extends Exception {
+public class StockNotExistsException extends Exception {
 	
 	private static final long serialVersionUID = 1L;
 
-	public StockNotExistException(String symbol) {
+	public StockNotExistsException(String symbol) {
 		super("Stock " + symbol + " not exists!");
 	}
 

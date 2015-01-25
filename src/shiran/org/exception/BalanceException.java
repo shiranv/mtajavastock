@@ -1,4 +1,4 @@
-package shiran.org.exeption;
+package shiran.org.exception;
 /**
  * This exception to be thrown when the portfolio balance becomes
 negative.
@@ -10,6 +10,11 @@ public class BalanceException extends Exception{
 	private static final long serialVersionUID = 1L;
 
 	public BalanceException() {
-		super("balance can't be negative / you don't have enough money to buy this stock ");
+		super("Out of balance!");
 	}
+	
+	public BalanceException(String message) {
+		super(message);
+	}
+
 }

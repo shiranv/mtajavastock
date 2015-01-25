@@ -1,4 +1,4 @@
-package shiran.org.exeption;
+package shiran.org.exception;
 /**
  * exception to be thrown when a stock already exists
  * @author vazana
