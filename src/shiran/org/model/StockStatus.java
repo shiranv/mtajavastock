@@ -26,6 +26,10 @@ public class StockStatus extends Stock{
 			this.recommendation=stockStatus.getRecommendation();
 		}
 	
+	public StockStatus(Stock stock) {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * getters & setters
 	 * @return

@@ -59,12 +59,12 @@ public class PortfolioService {
 	 */
 	public void update() {
 		StockStatus[] stocks = getPortfolio().getStocks();
-		List<String> symbols = new ArrayList<>(Portfolio.SIZE);
+		List<String> symbols = new ArrayList<>(Portfolio.MAX_PORTFOLIO_SIZE);
 		for (StockStatus stockStatus : stocks) {
 			symbols.add(stockStatus.getSymbol());
 		}
 		
-		List<StockStatus> update = new ArrayList<>(Portfolio.SIZE);
+		List<StockStatus> update = new ArrayList<>(Portfolio.MAX_PORTFOLIO_SIZE);
 		List<Stock> currentStocksList;
 		try {
 			currentStocksList = MarketService.getInstance().getStocks(symbols);
@@ -155,7 +155,7 @@ public class PortfolioService {
 			portfolio.addStock(stock);
 			
 			//second thing, save the new stock to the database.
-			datastoreService.saveStock(portfolio.findBySymbol(symbol));
+			datastoreService.saveStock(((portfolio).findBySymbol(symbol)));
 			
 			flush();
 		}

@@ -13,14 +13,15 @@ import shiran.org.exception.StockNotExistsException;
 public class Portfolio {
 
 	public enum ALGO_RECOMMENDATION{DO_NOTHING,BUY,SELL};
-	private static final int MAX_PORTFOLIO_SIZE =5;
+	public static final int MAX_PORTFOLIO_SIZE =5;
 	private String title=" Shiran's Portfolio ! ";
 	private StockStatus[] stocksStatus;
 	private int portfolioSize=0;
 	private float balance=0;
 
-	public Portfolio(List<StockStatus> st){
-	
+	public Portfolio(List<StockStatus> stockStatuses){
+	this();
+	stockStatuses.toArray(this.stocksStatus);
 	}
 	
 	public Portfolio(){
@@ -320,5 +321,29 @@ public class Portfolio {
 
 		return balance; 
 	}
+/**
+ * 
+ * @param symbol
+ * @return
+ */
+//	public StockStatus findBySymbol(String symbol) {
+//		for(int i=0; i<portfolioSize; i++)
+//		{
+//			if (symbol.equals(stocksStatus[i].getSymbol())){
+//				return stocksStatus[i];
+//			}
+//		}
+//		return null;
+//	}
+
+public StockStatus findBySymbol(String symbol) {
+	for(int i=0; i<portfolioSize; i++)
+	{
+		if (symbol.equals(stocksStatus[i].getSymbol())){
+			return stocksStatus[i];
+		}
+	}
+	return null;
+}
 
 }

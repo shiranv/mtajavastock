@@ -2,9 +2,11 @@ package shiran.org.model;
 
 public class Account {
 
+	private String userName;
+	private String passward; 
+	private float balance; 
 	
-	
-	
+
 	
 	public static final float DEFAULT_BALANCE = 0;
 
